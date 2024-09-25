@@ -16,7 +16,7 @@ if "page" not in st.session_state:
     st.session_state["page"]="home"
 
 if st.session_state["page"]=="home":
-    import home
+    import homePage from home
 elif st.session_state["page"]=="login":
-    import login
+    import loginPage from login
 
