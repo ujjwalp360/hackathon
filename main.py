@@ -7,3 +7,16 @@ from streamlit_lottie import st_lottie
 import pandas as pd
 st.set_page_config(page_title="ujj",page_icon="💀")
 
+def go_home():
+    st.session_state["page"]="home"
+def go_login():
+    st.session_state["page"]="login"
+
+if "page" not in st.session_state:
+    st.session_state["page"]="home"
+
+if st.session_state["page"]=="home":
+    import home
+elif st.session_state["page"]=="login":
+    import login
+
