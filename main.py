@@ -17,8 +17,6 @@ if "page" not in st.session_state:
 
 if st.session_state["page"]=="home":
     import home
-    st.rerun()
 elif st.session_state["page"]=="login":
     import login
-    st.rerun()
 
