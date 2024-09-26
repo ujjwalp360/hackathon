@@ -1,7 +1,7 @@
 import streamlit as st
 st.set_page_config(page_title="ujj",page_icon="💀")
 
-query=st.query_params()
+query=st.experimental_get_query_params()
 page=query.get("page",["home"])[0]
 
 if page=="login":
