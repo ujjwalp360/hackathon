@@ -10,7 +10,7 @@ def home_page():
     if st.button("Go to Login"):
         # Update the URL to point to the login page
         st.experimental_set_query_params(page="login")
-        st.experimental_rerun()
+        st.rerun()
 
 # Function to show the login page
 def login_page():
@@ -19,7 +19,7 @@ def login_page():
     if st.button("Go Back to Home"):
         # Update the URL to point to the home page
         st.experimental_set_query_params(page="home")
-        st.experimental_rerun()
+        st.rerun()
 
 # Get the current page from query parameters
 query_params = st.experimental_get_query_params()
