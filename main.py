@@ -17,9 +17,8 @@ if "page" not in st.session_state:
 
 if st.session_state["page"]=="home":
     from home import homePage
-    homePagePage()
+    homePage()
     
 elif st.session_state["page"]=="login":
     from login import loginPage
     loginPage()
-
