@@ -1,18 +1,40 @@
 import streamlit as st
-st.set_page_config(page_title="ujj",page_icon="💀")
+import streamlit as st
 
-def go_home():
-    st.session_state["page"]="home"
-def go_login():
-    st.session_state["page"]="login"
+# Set page title
+st.set_page_config(page_title="Multi-Page Streamlit App", page_icon=":house:")
 
-if "page" not in st.session_state:
-    st.session_state["page"]="home"
+# Function to show the home page
+def home_page():
+    st.title("Home Page")
+    st.write("Welcome to the home page of the Streamlit app!")
 
-if st.session_state["page"]=="home":
-    from home import homePage
-    homePage()
-    
-elif st.session_state["page"]=="login":
-    from login import loginPage
-    loginPage()
+# Function to show the about page
+def about_page():
+    st.title("About Page")
+    st.write("This is the about page of the Streamlit app.")
+
+# Dictionary mapping page names to functions
+PAGES = {
+    "Home": home_page,
+    "About": about_page
+}
+
+# Get the query params from the URL
+query_params = st.experimental_get_query_params()
+
+# Extract page from the query params or default to "Home"
+page = query_params.get("page", ["Home"])[0]
+
+# Render the selected page
+if page in PAGES:
+    PAGES[page]()
+else:
+    st.error("Page not found!")
+
+# Sidebar for navigation
+st.sidebar.title("Navigation")
+selection = st.sidebar.radio("Go to", list(PAGES.keys()))
+
+# Update the query params in the URL
+st.experimental_set_query_params(page=selection)
