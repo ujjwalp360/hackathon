@@ -3,4 +3,4 @@ def loginPage():
     st.title("Login Page")
     if st.button("Go Back to Home"):
         st.experimental_get_query_params(page="home")
-        st.experimental_rerun()
+        st.rerun()
