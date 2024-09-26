@@ -2,5 +2,5 @@ import streamlit as st
 def homePage():
     st.title("home page")
     if st.button("login"):
-       st.session_state["page"]="login"
-       st.rerun()
+       st.experimental_get_query_params(page="login")
+       st.ecxperimental_rerun()
