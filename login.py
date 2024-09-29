@@ -1,4 +1,3 @@
-# login.py
 import streamlit as st
 from db import create_db_connection
 from registration import complete_registration_page
@@ -18,12 +17,12 @@ def verify_login(username, password):
     return user
 
 # Function to check if the user has completed registration
-def check_registration_complete(user_id):
+def check_registration_complete(username):
     db = create_db_connection()
     cursor = db.cursor()
     
-    query = "SELECT COUNT(*) FROM user_info WHERE user_id = %s"
-    cursor.execute(query, (user_id,))
+    query = "SELECT COUNT(*) FROM user_info WHERE username = %s"
+    cursor.execute(query, (username,))
     registration_complete = cursor.fetchone()[0] > 0
     
     cursor.close()
@@ -43,13 +42,12 @@ def login_page():
         user = st.session_state['user']
         
         # Check if registration is complete for the logged-in user
-        if not check_registration_complete(user['id']):
+        if not check_registration_complete(user['username']):
             st.write(f"Welcome, {user['username']}!")
             st.warning("You have not completed the registration. Please complete your registration to apply for the scholarship.")
             complete_registration_page(user['username'])  # Pass username to registration page
         else:
             st.success("Welcome back! Your registration is complete.")
-            # User's personal dashboard or other features can be added here after login and registration
             st.write("Proceed to check eligibility or apply for the scholarship.")
     else:
         st.write("Please log in to continue.")

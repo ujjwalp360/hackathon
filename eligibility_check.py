@@ -1,16 +1,15 @@
-# eligibility_check.py
 import streamlit as st
 from db import create_db_connection
 
-def get_user_info(user_id):
+def get_user_info(username):
     db = create_db_connection()
     if db is None:
         st.error("Database connection failed.")
         return None
     cursor = db.cursor(dictionary=True)
     
-    query = "SELECT * FROM user_info WHERE user_id = %s"
-    cursor.execute(query, (user_id,))
+    query = "SELECT * FROM user_info WHERE username = %s"
+    cursor.execute(query, (username,))
     user_info = cursor.fetchone()
     
     cursor.close()
@@ -18,10 +17,10 @@ def get_user_info(user_id):
     
     return user_info
 
-def show_eligibility_check(user_id):
+def show_eligibility_check(username):
     st.title("Eligibility Check")
     
-    user_info = get_user_info(user_id)
+    user_info = get_user_info(username)
     if not user_info:
         st.error("User information not found.")
         return
@@ -37,7 +36,7 @@ def show_eligibility_check(user_id):
     
     if user_info["domicile_state"].lower() != "maharashtra":
         st.write(f"- **Domicile State**: {user_info['domicile_state']} (Not Maharashtra): **Not Eligible**")
-        eligible = Falsev
+        eligible = False
     else:
         st.write("- **Domicile State**: Maharashtra: **Eligible**")
     
@@ -62,7 +61,6 @@ def show_eligibility_check(user_id):
         
         if submit_docs:
             if has_documents:
-                # Here, you can add logic to handle the scholarship application
                 st.success("Your scholarship application has been submitted successfully!")
             else:
                 st.error("Please confirm that you have all required documents.")

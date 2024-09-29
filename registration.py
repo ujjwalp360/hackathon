@@ -1,18 +1,17 @@
-# registration.py
 import streamlit as st
 from db import create_db_connection
 
 # Function to save registration data in 'user_info' table
-def complete_registration(user_id, name, aadhaar, family_income, gender, domicile, category, enrollment_no, college_state):
+def complete_registration(username, name, aadhaar, family_income, gender, domicile, category, enrollment_no, college_state):
     db = create_db_connection()
     cursor = db.cursor()
     
-    # Insert registration data into 'user_info' table, linking it with the user_id from 'users' table
+    # Insert registration data into 'user_info' table, linking it with the username from 'users' table
     query = """
-        INSERT INTO user_info (user_id, name, aadhaar, family_income, gender, domicile, category, enrollment_no, college_state)
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+        INSERT INTO user_info (username, aadhar, family_income, gender, domicile_state, category, enrollment_no, college_state)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
     """
-    cursor.execute(query, (user_id, name, aadhaar, family_income, gender, domicile, category, enrollment_no, college_state))
+    cursor.execute(query, (username, aadhaar, family_income, gender, domicile, category, enrollment_no, college_state))
     
     db.commit()
     cursor.close()
@@ -21,9 +20,6 @@ def complete_registration(user_id, name, aadhaar, family_income, gender, domicil
 # Registration page function
 def complete_registration_page(username):
     st.title("Complete Registration")
-    
-    # Fetch the user ID based on the username
-    user_id = fetch_user_id_by_username(username)
     
     # Complete registration form
     with st.form("registration_form"):
@@ -34,7 +30,6 @@ def complete_registration_page(username):
         
         domicile = st.radio("Do you have a domicile of Maharashtra?", ["Yes", "No"], key="domicile_radio")
         
-        # If domicile is "No", display error and prevent registration
         if domicile == "No":
             st.error("You are not eligible for the scholarship as you do not have a domicile of Maharashtra.")
             return
@@ -49,23 +44,8 @@ def complete_registration_page(username):
         # Ensure all required fields are filled
         if name and aadhaar and enrollment_no:
             # Pass all collected data to the complete_registration function
-            complete_registration(user_id, name, aadhaar, family_income, gender, domicile, category, enrollment_no, college_state)
-            st.session_state['user']['registration_complete'] = True
+            complete_registration(username, name, aadhaar, family_income, gender, domicile, category, enrollment_no, college_state)
             st.success("Registration completed successfully! You can now check your eligibility.")
             st.rerun()  # Refresh page after registration
         else:
             st.error("Please fill out all required fields before submitting.")
-
-# Function to fetch user ID by username
-def fetch_user_id_by_username(username):
-    db = create_db_connection()
-    cursor = db.cursor(dictionary=True)
-    
-    query = "SELECT id FROM users WHERE username = %s"
-    cursor.execute(query, (username,))
-    user_id = cursor.fetchone()['id']
-    
-    cursor.close()
-    db.close()
-    
-    return user_id
