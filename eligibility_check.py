@@ -37,7 +37,7 @@ def show_eligibility_check(user_id):
     
     if user_info["domicile_state"].lower() != "maharashtra":
         st.write(f"- **Domicile State**: {user_info['domicile_state']} (Not Maharashtra): **Not Eligible**")
-        eligible = False
+        eligible = Falsev
     else:
         st.write("- **Domicile State**: Maharashtra: **Eligible**")
     

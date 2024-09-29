@@ -10,7 +10,19 @@ def complete_registration(user_id):
         aadhar = st.text_input("Aadhar Card Number")
         family_income = st.number_input("Family Income", min_value=0.0, step=1000.0)
         gender = st.selectbox("Gender", ["Male", "Female", "Other"])
-        domicile_state = st.text_input("Domicile State")
+        domicile_state = st.radio("Do you have a domicile of Maharashtra?", ["Yes", "No"])
+        
+        # If domicile is No, show an error and prevent further registration
+        if domicile == "No":
+            st.error("You are not eligible for the scholarship as you do not have a domicile of Maharashtra.")
+            return  # Exit the registration page, since they can't apply
+        
+        # Proceed with the rest of the form if domicile is "Yes"
+        category = st.selectbox("Category", ["Open", "OBC", "OBC-NCL", "SC", "ST"])
+        enrollment_no = st.text_input("Enrollment Number")
+        college_state = st.selectbox("College State", ["Maharashtra", "Other"])
+        
+        submit_button = st.form_submit_button("Submit")
         category = st.selectbox("Category", ["Open", "OBC", "OBC-NCL", "SC", "ST"])
         enrollment_no = st.text_input("Enrollment Number")
         college_state = st.text_input("College State")
