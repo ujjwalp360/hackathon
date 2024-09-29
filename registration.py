@@ -10,13 +10,22 @@ def complete_registration(username, name, aadhaar, family_income, gender, domici
         INSERT INTO user_info (username, name, aadhaar, family_income, gender, domicile_state, category, enrollment_no, college_state)
         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
     """
-    cursor.execute(query, (username, name, aadhaar, family_income, gender, domicile, category, enrollment_no, college_state))
     
-    db.commit()
+    try:
+        cursor.execute(query, (username, name, aadhaar, family_income, gender, domicile, category, enrollment_no, college_state))
+        db.commit()
+        st.success("Registration data saved successfully!")
+        
+        # Update the registration status
+        st.session_state['needs_registration'] = False
+        
+    except Exception as e:
+        # Log the error to the console and show an error in the UI
+        st.error(f"An error occurred while saving registration: {e}")
+        print(f"Error: {e}")
+    
     cursor.close()
     db.close()
-
-    st.session_state['needs_registration'] = False  # Update registration status
 
 # Registration page function
 def complete_registration_page():
@@ -50,7 +59,5 @@ def complete_registration_page():
             if name and aadhaar and enrollment_no:
                 # Complete registration with the username from session
                 complete_registration(username, name, aadhaar, family_income, gender, domicile, category, enrollment_no, college_state)
-                st.success("Registration completed successfully! You can now check your eligibility.")
-                st.rerun()  # Refresh the page after registration
             else:
                 st.error("Please fill out all required fields before submitting.")
