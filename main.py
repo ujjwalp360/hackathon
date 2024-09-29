@@ -36,4 +36,12 @@ def main():
             # Option to logout
             if st.button("Logout"):
                 st.session_state['logged_in'] = False
-                st.session_state['username
+                st.session_state['username'] = None
+                st.session_state['needs_registration'] = True
+                st.success("Logged out successfully.")
+        
+        else:
+            login_page()
+
+if __name__ == "__main__":
+    main()
