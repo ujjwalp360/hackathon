@@ -19,11 +19,11 @@ def complete_registration(user_id, name, aadhaar, family_income, gender, domicil
     db.close()
 
 # Registration page function
-def complete_registration_page():
+def complete_registration_page(username):
     st.title("Complete Registration")
     
-    # Ensure that user_id from session_state is used in registration
-    user_id = st.session_state['user']['id']
+    # Fetch the user ID based on the username
+    user_id = fetch_user_id_by_username(username)
     
     # Complete registration form
     with st.form("registration_form"):
@@ -43,12 +43,29 @@ def complete_registration_page():
         enrollment_no = st.text_input("Enrollment Number", key="enrollment_input")
         college_state = st.selectbox("College State", ["Maharashtra", "Other"], key="college_state_select")
         
-        submit_button = st.form_submit_button("Submit")
+        submit_button = st.form_submit_button("Submit", key="submit_button")
 
-        if submit_button:
-            st.success("Registration completed successfully!")
-            # Save the registration details in the database (implement logic in registration.py)
-            complete_registration(st.session_state['user']['id'], name, aadhaar, family_income, gender, domicile, category, enrollment_no, college_state)
-        # Reset the session to reflect the updated registration
+    if submit_button:
+        # Ensure all required fields are filled
+        if name and aadhaar and enrollment_no:
+            # Pass all collected data to the complete_registration function
+            complete_registration(user_id, name, aadhaar, family_income, gender, domicile, category, enrollment_no, college_state)
             st.session_state['user']['registration_complete'] = True
-            st.success("You can now check your eligibility!")
+            st.success("Registration completed successfully! You can now check your eligibility.")
+            st.experimental_rerun()  # Refresh page after registration
+        else:
+            st.error("Please fill out all required fields before submitting.")
+
+# Function to fetch user ID by username
+def fetch_user_id_by_username(username):
+    db = create_db_connection()
+    cursor = db.cursor(dictionary=True)
+    
+    query = "SELECT id FROM users WHERE username = %s"
+    cursor.execute(query, (username,))
+    user_id = cursor.fetchone()['id']
+    
+    cursor.close()
+    db.close()
+    
+    return user_id
