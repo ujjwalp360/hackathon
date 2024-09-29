@@ -41,12 +41,12 @@ def complete_registration_page(username):
         
         submit_button = st.form_submit_button("Submit")
 
-    if submit_button:
-        # Ensure all required fields are filled
-        if name and aadhaar and enrollment_no:
-            # Pass all collected data to the complete_registration function
-            complete_registration(username, name, aadhaar, family_income, gender, domicile, category, enrollment_no, college_state)
-            st.success("Registration completed successfully! You can now check your eligibility.")
-            st.rerun()  # Refresh page after registration
-        else:
-            st.error("Please fill out all required fields before submitting.")
+        if submit_button:
+            # Ensure all required fields are filled
+            if name and aadhaar and enrollment_no:
+                # Pass all collected data to the complete_registration function
+                complete_registration(username, name, aadhaar, family_income, gender, domicile, category, enrollment_no, college_state)
+                st.success("Registration completed successfully! You can now check your eligibility.")
+                st.rerun()  # Refresh page after registration
+            else:
+                st.error("Please fill out all required fields before submitting.")
