@@ -66,6 +66,6 @@ def login_page():
                 st.session_state['logged_in'] = True
                 st.session_state['user'] = user
                 st.success(f"Login successful! Welcome, {user['username']}.")
-                st.experimental_rerun()  # Refresh the page to show the registration status
+                st.rerun()  # Refresh the page to show the registration status
             else:
                 st.error("Invalid username or password. Please try again.")
