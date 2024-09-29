@@ -1,11 +1,14 @@
 # login.py
 import streamlit as st
 from db import create_db_connection
-from registration import complete_registration, get_user_info_ids
+from registration import complete_registration
+from eligibility_check import show_eligibility_check
 
-# Function to log in the user
 def login_user(username, password):
     db = create_db_connection()
+    if db is None:
+        st.error("Database connection failed.")
+        return None
     cursor = db.cursor(dictionary=True)
     
     query = "SELECT * FROM users WHERE username = %s AND password = %s"
@@ -17,33 +20,38 @@ def login_user(username, password):
     
     return user
 
-# Login page function
+def check_registration(user_id):
+    db = create_db_connection()
+    if db is None:
+        st.error("Database connection failed.")
+        return False
+    cursor = db.cursor()
+    
+    query = "SELECT * FROM user_info WHERE user_id = %s"
+    cursor.execute(query, (user_id,))
+    info = cursor.fetchone()
+    
+    cursor.close()
+    db.close()
+    
+    return bool(info)
+
 def login_page():
     st.title("Login")
-
+    
     with st.form("login_form"):
         username = st.text_input("Username")
         password = st.text_input("Password", type="password")
         submit_button = st.form_submit_button("Login")
-
+    
     if submit_button:
         user = login_user(username, password)
         
         if user:
             st.success("Login successful!")
-
-            # Check if user is registered
-            user_info_ids = get_user_info_ids()
-            if user['id'] not in user_info_ids:
-                st.info("You haven't completed your registration.")
-                if st.button("Complete Registration"):
-                    complete_registration(user['id'])  # Redirect to registration
-            else:
-                st.success("You are fully registered.")
-                if st.button("Check Eligibility"):
-                    st.success("Redirecting to eligibility check...")
-                    # Here, you can call the eligibility check function or redirect to its page.
-                    # Example:
-                    # show_eligibility_check(user['id'])  # Assuming this function checks eligibility
+            # Set session state
+            st.session_state['logged_in'] = True
+            st.session_state['user_id'] = user['id']
+            st.session_state['needs_registration'] = not check_registration(user['id'])
         else:
             st.error("Invalid username or password.")

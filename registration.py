@@ -1,47 +1,42 @@
 # registration.py
 import streamlit as st
 from db import create_db_connection
+from eligibility_check import show_eligibility_check
 
-# Check if user info exists
-def get_user_info_ids():
-    db = create_db_connection()
-    cursor = db.cursor()
-    
-    query = "SELECT user_id FROM user_info"
-    cursor.execute(query)
-    user_ids = [row[0] for row in cursor.fetchall()]
-    
-    cursor.close()
-    db.close()
-    return user_ids
-
-# Complete Registration Page
 def complete_registration(user_id):
     st.title("Complete Registration")
-
-    aadhar = st.text_input("Aadhar Card Number")
-    family_income = st.number_input("Family Income", min_value=0.0)
-    gender = st.selectbox("Gender", ["Male", "Female", "Other"])
-    domicile_state = st.text_input("Domicile State")
-    category = st.selectbox("Category", ["Open", "OBC", "OBC-NCL", "SC", "ST"])
-    enrollment_no = st.text_input("Enrollment Number")
-    college_state = st.text_input("College State")
-
-    if domicile_state != "Maharashtra":
-        category = "Open"
-
-    if st.button("Submit"):
+    
+    with st.form("registration_form"):
+        aadhar = st.text_input("Aadhar Card Number")
+        family_income = st.number_input("Family Income", min_value=0.0, step=1000.0)
+        gender = st.selectbox("Gender", ["Male", "Female", "Other"])
+        domicile_state = st.text_input("Domicile State")
+        category = st.selectbox("Category", ["Open", "OBC", "OBC-NCL", "SC", "ST"])
+        enrollment_no = st.text_input("Enrollment Number")
+        college_state = st.text_input("College State")
+        submit_button = st.form_submit_button("Submit")
+    
+    if submit_button:
+        if domicile_state.lower() != "maharashtra":
+            category = "Open"  # Automatically sets category to 'Open' for non-Maharashtra domicile
+        
         db = create_db_connection()
+        if db is None:
+            st.error("Database connection failed.")
+            return
         cursor = db.cursor()
         
         query = """
         INSERT INTO user_info (user_id, aadhar, family_income, gender, domicile_state, category, enrollment_no, college_state)
         VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
         """
-        cursor.execute(query, (user_id, aadhar, family_income, gender, domicile_state, category, enrollment_no, college_state))
-        db.commit()
-        
-        cursor.close()
-        db.close()
-
-        st.success(f"Registration Complete for user_id {user_id}!")
+        try:
+            cursor.execute(query, (user_id, aadhar, family_income, gender, domicile_state, category, enrollment_no, college_state))
+            db.commit()
+            st.success("Registration Complete!")
+            st.session_state['needs_registration'] = False
+        except Exception as e:
+            st.error(f"An error occurred: {e}")
+        finally:
+            cursor.close()
+            db.close()
