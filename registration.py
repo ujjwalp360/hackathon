@@ -22,7 +22,7 @@ def complete_registration(user_id):
         enrollment_no = st.text_input("Enrollment Number", key="enrollment_input")
         college_state = st.selectbox("College State", ["Maharashtra", "Other"], key="college_state_select")
         
-        submit_button = st.form_submit_button("Submit", key="submit_button")
+        submit_button = st.form_submit_button("Submit")
     
     if submit_button:
         if domicile_state.lower() != "maharashtra":
