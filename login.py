@@ -5,11 +5,11 @@ from registration import complete_registration_page
 # Function to verify user login
 def verify_login(username, password):
     db = create_db_connection()
-    cursor = db.cursor(dictionary=True)
+    cursor = db.cursor()
     
     query = "SELECT * FROM users WHERE username = %s AND password = %s"
     cursor.execute(query, (username, password))
-    user = cursor.fetchone()
+    user = cursor.fetchall()
     
     cursor.close()
     db.close()
