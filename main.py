@@ -1,6 +1,6 @@
 import streamlit as st
 from login import login_page
-from registration import complete_registration
+from registration import complete_registration_page
 from eligibility_check import show_eligibility_check
 
 def main():
