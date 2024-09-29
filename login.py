@@ -6,6 +6,7 @@ def login_page():
     
     # Button to go back to the home page
     if st.button("Go Back to Home"):
-        # Update the URL to point to the home page
+        # Navigates to the home page by updating the URL query parameters 
+        # and then rerunning the script to reflect the changes.
         st.experimental_set_query_params(page="home")
         st.rerun()
