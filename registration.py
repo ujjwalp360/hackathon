@@ -39,9 +39,9 @@ def complete_registration_page():
         category = st.selectbox("Category", ["Open", "OBC", "OBC-NCL", "SC", "ST"])
         enrollment_no = st.text_input("Enrollment Number")
         college_state = st.selectbox("College State", ["Maharashtra", "Other"])
-
+        button=st.form_submit_button("Submit")
     # Ensure all required fields are filled
-    if st.form_submit_button("Submit"):
+    if button:
         if name and aadhaar and enrollment_no:
             # Pass all collected data to the complete_registration function
             complete_registration(username, name, aadhaar, family_income, gender, domicile, category, enrollment_no, college_state)
