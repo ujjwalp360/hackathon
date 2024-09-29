@@ -56,12 +56,3 @@ def login_page():
 
         else:
             st.error("Invalid username or password.")
-if user:
-            st.success("Login successful!")
-            
-            # Store user details in session_state (including 'id' from 'users' table)
-            st.session_state['user'] = user
-
-            show_post_login_page()  # Show next steps after login
-        else:
-            st.error("Invalid username or password.")
