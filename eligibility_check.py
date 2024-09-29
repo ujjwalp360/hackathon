@@ -62,7 +62,7 @@ def show_eligibility_check(username):
         if submit_docs:
             if has_documents:
                 st.success("Redirecting to the scholarship application form...")
-                st.experimental_rerun()  # Redirect to the apply.py page
+                st.rerun()  # Redirect to the apply.py page
             else:
                 st.error("Please confirm that you have all required documents.")
     else:
