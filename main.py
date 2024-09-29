@@ -4,9 +4,10 @@ import mysql.connector
 # MySQL Database connection
 def create_db_connection():
     return mysql.connector.connect(
-        host="ber9n6myvypxkq2zmnmt-mysql.services.clever-cloud.com",
-        user="ubd29UcTDrAGhd4nvuhX",
-        database="ber9n6myvypxkq2zmnmt"
+        host="localhost",
+        user="root",
+        password="password",
+        database="scholarship_db"
     )
 
 # Login functionality
@@ -49,10 +50,16 @@ def home_page():
 def login_page():
     st.title("Login")
 
-    username = st.text_input("Username")
-    password = st.text_input("Password", type="password")
-    
-    if st.button("Submit"):
+    # Using a Streamlit form to avoid auto-refresh
+    with st.form("login_form"):
+        username = st.text_input("Username")
+        password = st.text_input("Password", type="password")
+        
+        # Add a submit button to trigger form submission
+        submit_button = st.form_submit_button("Submit")
+
+    # If the submit button is pressed, process the login
+    if submit_button:
         user = login_user(username, password)
         
         if user:
@@ -61,7 +68,6 @@ def login_page():
             
             if user_info:
                 st.write("You have already completed registration.")
-                # Show eligibility check option if already registered
                 show_eligibility_check(user_info)
             else:
                 st.warning("You need to complete your registration.")
