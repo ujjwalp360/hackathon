@@ -53,5 +53,7 @@ def login_page():
             st.session_state['logged_in'] = True
             st.session_state['user_id'] = user['id']
             st.session_state['needs_registration'] = not check_registration(user['id'])
+            st.session_state['user'] = user
+
         else:
             st.error("Invalid username or password.")
