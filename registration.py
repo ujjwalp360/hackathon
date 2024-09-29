@@ -23,6 +23,7 @@ def complete_registration_page(username):
     
     # Complete registration form
     with st.form("registration_form"):
+        username=st.text_input("username")
         name = st.text_input("Full Name (as per Aadhaar)")
         aadhaar = st.text_input("Aadhaar Number")
         family_income = st.number_input("Family Income", min_value=0, step=1000)
