@@ -7,6 +7,8 @@ def main():
     # Initialize session state variables if they don't exist
     if 'logged_in' not in st.session_state:
         st.session_state['logged_in'] = False
+    if 'username' not in st.session_state:
+        st.session_state['username'] = None
     if 'needs_registration' not in st.session_state:
         st.session_state['needs_registration'] = True
 
@@ -24,7 +26,8 @@ def main():
             st.write("### You are already logged in.")
             if st.session_state['needs_registration']:
                 st.info("You need to complete your registration to apply for scholarships.")
-                
+                if st.button("Complete Registration"):
+                    complete_registration(st.session_state['username'],name, aadhaar, family_income, gender, domicile, category, enrollment_no, college_state)
             else:
                 st.success("You have completed your registration.")
                 if st.button("Check Eligibility"):
