@@ -6,7 +6,6 @@ def complete_registration(username, name, aadhaar, family_income, gender, domici
     db = create_db_connection()
     cursor = db.cursor()
     
-    # Insert registration data into 'user_info' table, linking it with the username from 'users' table
     query = """
         INSERT INTO user_info (username, name, aadhaar, family_income, gender, domicile_state, category, enrollment_no, college_state)
         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
@@ -17,16 +16,20 @@ def complete_registration(username, name, aadhaar, family_income, gender, domici
     cursor.close()
     db.close()
 
-    # Set session state to indicate registration is complete
-    st.session_state['needs_registration'] = False
+    st.session_state['needs_registration'] = False  # Update registration status
 
 # Registration page function
 def complete_registration_page():
     st.title("Complete Registration")
     
-    # Complete registration form
+    # Get username from session state
+    username = st.session_state.get('username')
+    if not username:
+        st.error("Username not found. Please log in again.")
+        return
+    
+    # Registration form
     with st.form("registration_form"):
-        username = st.session_state['username']  # Use session-stored username
         name = st.text_input("Full Name (as per Aadhaar)")
         aadhaar = st.text_input("Aadhaar Number")
         family_income = st.number_input("Family Income", min_value=0, step=10000)
@@ -41,17 +44,13 @@ def complete_registration_page():
         category = st.selectbox("Category", ["Open", "OBC", "OBC-NCL", "SC", "ST"])
         enrollment_no = st.text_input("Enrollment Number")
         college_state = st.selectbox("College State", ["Maharashtra", "Other"])
-        button = st.form_submit_button("Submit")
+        submit_button = st.form_submit_button("Submit")
     
-        # Ensure all required fields are filled
-        if button:
+        if submit_button:
             if name and aadhaar and enrollment_no:
-                # Call the complete_registration function
+                # Complete registration with the username from session
                 complete_registration(username, name, aadhaar, family_income, gender, domicile, category, enrollment_no, college_state)
-                
                 st.success("Registration completed successfully! You can now check your eligibility.")
-                
-                st.session_state['needs_registration'] = False  # Set this to False after registration
-                st.rerun()  # Refresh page after registration
+                st.rerun()  # Refresh the page after registration
             else:
                 st.error("Please fill out all required fields before submitting.")
