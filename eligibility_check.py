@@ -1,5 +1,6 @@
 import streamlit as st
 from db import create_db_connection
+from apply import scholarship_application_page  # Importing the scholarship application page
 
 def get_user_info(username):
     db = create_db_connection()
@@ -62,6 +63,7 @@ def show_eligibility_check(username):
         if submit_docs:
             if has_documents:
                 st.success("Redirecting to the scholarship application form...")# Redirect to the apply.py page
+                scholarship_application_page()
             else:
                 st.error("Please confirm that you have all required documents.")
     else:
