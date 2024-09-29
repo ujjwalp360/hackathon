@@ -8,10 +8,10 @@ def complete_registration(username, name, aadhaar, family_income, gender, domici
     
     # Insert registration data into 'user_info' table, linking it with the username from 'users' table
     query = """
-        INSERT INTO user_info (username, aadhar, family_income, gender, domicile_state, category, enrollment_no, college_state)
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+        INSERT INTO user_info (username, name, aadhaar, family_income, gender, domicile_state, category, enrollment_no, college_state)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
     """
-    cursor.execute(query, (username, aadhaar, family_income, gender, domicile, category, enrollment_no, college_state))
+    cursor.execute(query, (username, name, aadhaar, family_income, gender, domicile, category, enrollment_no, college_state))
     
     db.commit()
     cursor.close()
@@ -30,6 +30,7 @@ def complete_registration_page(username):
         
         domicile = st.radio("Do you have a domicile of Maharashtra?", ["Yes", "No"], key="domicile_radio")
         
+        # If domicile is "No", display error and prevent registration
         if domicile == "No":
             st.error("You are not eligible for the scholarship as you do not have a domicile of Maharashtra.")
             return

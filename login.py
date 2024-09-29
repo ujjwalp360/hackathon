@@ -48,6 +48,7 @@ def login_page():
             complete_registration_page(user['username'])  # Pass username to registration page
         else:
             st.success("Welcome back! Your registration is complete.")
+            # User's personal dashboard or other features can be added here after login and registration
             st.write("Proceed to check eligibility or apply for the scholarship.")
     else:
         st.write("Please log in to continue.")
