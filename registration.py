@@ -13,7 +13,7 @@ def complete_registration(user_id):
         domicile_state = st.radio("Do you have a domicile of Maharashtra?", ["Yes", "No"])
         
         # If domicile is No, show an error and prevent further registration
-        if domicile == "No":
+        if domicile_state == "No":
             st.error("You are not eligible for the scholarship as you do not have a domicile of Maharashtra.")
             return  # Exit the registration page, since they can't apply
         
