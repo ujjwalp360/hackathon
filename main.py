@@ -7,8 +7,6 @@ def main():
     # Initialize session state variables if they don't exist
     if 'logged_in' not in st.session_state:
         st.session_state['logged_in'] = False
-    if 'username' not in st.session_state:
-        st.session_state['username'] = None
     if 'needs_registration' not in st.session_state:
         st.session_state['needs_registration'] = True
 
