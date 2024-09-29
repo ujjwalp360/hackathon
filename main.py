@@ -27,7 +27,7 @@ def main():
             if st.session_state['needs_registration']:
                 st.info("You need to complete your registration to apply for scholarships.")
                 if st.button("Complete Registration"):
-                    complete_registration(st.session_state['username'],name, aadhaar, family_income, gender, domicile, category, enrollment_no, college_state)
+                    complete_registration()
             else:
                 st.success("You have completed your registration.")
                 if st.button("Check Eligibility"):
