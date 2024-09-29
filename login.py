@@ -1,4 +1,3 @@
-
 import streamlit as st
 from db import create_db_connection
 from registration import complete_registration_page
@@ -35,7 +34,6 @@ def check_registration_complete(username):
 def login_page():
     st.title("Login")
 
-    # Check if the user is logged in
     if 'logged_in' not in st.session_state:
         st.session_state['logged_in'] = False
 
@@ -46,7 +44,7 @@ def login_page():
         if not check_registration_complete(username):
             st.write(f"Welcome, {username}!")
             st.warning("You have not completed the registration. Please complete your registration to apply for the scholarship.")
-            complete_registration_page(username)  # Pass username to registration page
+            complete_registration_page()
         else:
             st.success("Welcome back! Your registration is complete.")
             st.write("Proceed to check eligibility or apply for the scholarship.")
