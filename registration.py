@@ -18,7 +18,7 @@ def complete_registration(username, name, aadhaar, family_income, gender, domici
     db.close()
 
 # Registration page function
-def complete_registration_page(username):
+def complete_registration_page():
     st.title("Complete Registration")
     
     # Complete registration form
