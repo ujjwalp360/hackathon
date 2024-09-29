@@ -39,9 +39,9 @@ def complete_registration_page(username):
         enrollment_no = st.text_input("Enrollment Number")
         college_state = st.selectbox("College State", ["Maharashtra", "Other"])
         
-        submit_button = st.form_submit_button("Submit")
+        submit_button = st.button("Submit")
 
-        if (submit_button = st.form_submit_button("Submit")):
+        if submit_button==True:
             # Ensure all required fields are filled
             if name and aadhaar and enrollment_no:
                 # Pass all collected data to the complete_registration function
