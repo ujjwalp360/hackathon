@@ -52,7 +52,7 @@ def complete_registration_page(username):
             complete_registration(user_id, name, aadhaar, family_income, gender, domicile, category, enrollment_no, college_state)
             st.session_state['user']['registration_complete'] = True
             st.success("Registration completed successfully! You can now check your eligibility.")
-            st.experimental_rerun()  # Refresh page after registration
+            st.rerun()  # Refresh page after registration
         else:
             st.error("Please fill out all required fields before submitting.")
 
