@@ -23,7 +23,7 @@ def check_registration_complete(username):
     
     query = "SELECT COUNT(*) FROM user_info WHERE username = %s"
     cursor.execute(query, (username,))
-    registration_complete = cursor.fetchone()[0] > 0
+    registration_complete = cursor.fetchall()[0] > 0
     
     cursor.close()
     db.close()

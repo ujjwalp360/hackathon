@@ -26,7 +26,7 @@ def complete_registration_page():
         username=st.text_input("username")
         name = st.text_input("Full Name (as per Aadhaar)")
         aadhaar = st.text_input("Aadhaar Number")
-        family_income = st.number_input("Family Income", min_value=0, step=1000)
+        family_income = st.number_input("Family Income", min_value=0, step=10000)
         gender = st.selectbox("Gender", ["Male", "Female", "Other"])
         
         domicile = st.radio("Do you have a domicile of Maharashtra?", ["Yes", "No"])
