@@ -18,6 +18,7 @@ def complete_registration(user_id, name, aadhaar, family_income, gender, domicil
     cursor.close()
     db.close()
 
+# Registration page function
 def complete_registration_page():
     st.title("Complete Registration")
     
@@ -33,6 +34,7 @@ def complete_registration_page():
         
         domicile = st.radio("Do you have a domicile of Maharashtra?", ["Yes", "No"], key="domicile_radio")
         
+        # If domicile is "No", display error and prevent registration
         if domicile == "No":
             st.error("You are not eligible for the scholarship as you do not have a domicile of Maharashtra.")
             return
@@ -44,8 +46,10 @@ def complete_registration_page():
         submit_button = st.form_submit_button("Submit", key="submit_button")
 
     if submit_button:
-        st.success("Registration completed successfully!")
-        # Save the registration details using user_id from session_state
-        complete_registration(user_id, name, aadhaar, family_income, gender, domicile, category, enrollment_no, college_state)
-        st.session_state['user']['registration_complete'] = True
-        st.success("You can now check your eligibility!")
+        if name and aadhaar and enrollment_no:
+            # Pass all collected data to the complete_registration function
+            complete_registration(user_id, name, aadhaar, family_income, gender, domicile, category, enrollment_no, college_state)
+            st.session_state['user']['registration_complete'] = True
+            st.success("Registration completed successfully! You can now check your eligibility.")
+        else:
+            st.error("Please fill out all required fields before submitting.")
