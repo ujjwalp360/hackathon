@@ -2,8 +2,21 @@
 import streamlit as st
 from db import create_db_connection
 
+# Check if user info exists
+def get_user_info_ids():
+    db = create_db_connection()
+    cursor = db.cursor()
+    
+    query = "SELECT user_id FROM user_info"
+    cursor.execute(query)
+    user_ids = [row[0] for row in cursor.fetchall()]
+    
+    cursor.close()
+    db.close()
+    return user_ids
+
 # Complete Registration Page
-def complete_registration(user_id=4556):
+def complete_registration(user_id):
     st.title("Complete Registration")
 
     aadhar = st.text_input("Aadhar Card Number")
@@ -15,7 +28,7 @@ def complete_registration(user_id=4556):
     college_state = st.text_input("College State")
 
     if domicile_state != "Maharashtra":
-        category = "Open"  # Automatically sets category to 'Open' for non-Maharashtra domicile
+        category = "Open"
 
     if st.button("Submit"):
         db = create_db_connection()

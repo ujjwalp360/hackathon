@@ -6,7 +6,6 @@ def show_eligibility_check(user_info):
     st.title("Eligibility Check")
 
     eligible = True
-    st.write("Checking eligibility based on the following conditions:")
     
     if user_info["family_income"] > 800000:
         st.write("Income above 8 lakh: Not eligible")
@@ -15,13 +14,13 @@ def show_eligibility_check(user_info):
         st.write("Income below 8 lakh: Eligible")
     
     if user_info["domicile_state"] != "Maharashtra":
-        st.write(f"Domicile not in Maharashtra ({user_info['domicile_state']}): Not eligible")
+        st.write("Domicile not in Maharashtra: Not eligible")
         eligible = False
     else:
         st.write("Domicile in Maharashtra: Eligible")
     
     if user_info["college_state"] != "Maharashtra":
-        st.write(f"College not in Maharashtra ({user_info['college_state']}): Not eligible")
+        st.write("College not in Maharashtra: Not eligible")
         eligible = False
     else:
         st.write("College in Maharashtra: Eligible")
