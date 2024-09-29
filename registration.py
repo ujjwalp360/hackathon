@@ -7,7 +7,7 @@ def complete_registration(username, name, aadhaar, family_income, gender, domici
     cursor = db.cursor()
     
     query = """
-        INSERT INTO user_info (username, name, aadhaar, family_income, gender, domicile_state, category, enrollment_no, college_state)
+        INSERT INTO user_info (username, full_name, aadhaar, family_income, gender, domicile_state, category, enrollment_no, college_state)
         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
     """
     
