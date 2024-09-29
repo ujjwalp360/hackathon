@@ -16,13 +16,12 @@ def complete_registration(username, name, aadhaar, family_income, gender, domici
         db.commit()
         st.success("Registration data saved successfully!")
         
-        # Update the registration status
+        # Update session state to indicate registration is complete
         st.session_state['needs_registration'] = False
         
     except Exception as e:
-        # Log the error to the console and show an error in the UI
         st.error(f"An error occurred while saving registration: {e}")
-        print(f"Error: {e}")
+        print(f"SQL Error: {e}")
     
     cursor.close()
     db.close()
@@ -31,6 +30,9 @@ def complete_registration(username, name, aadhaar, family_income, gender, domici
 def complete_registration_page():
     st.title("Complete Registration")
     
+    # Log session state for debugging
+    st.write("Session State in registration: ", st.session_state)
+
     # Get username from session state
     username = st.session_state.get('username')
     if not username:
