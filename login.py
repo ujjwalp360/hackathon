@@ -35,6 +35,7 @@ def check_registration_complete(user_id):
 def login_page():
     st.title("Login")
 
+    # Check if the user is logged in
     if 'logged_in' not in st.session_state:
         st.session_state['logged_in'] = False
 
@@ -45,7 +46,7 @@ def login_page():
         if not check_registration_complete(user['id']):
             st.write(f"Welcome, {user['username']}!")
             st.warning("You have not completed the registration. Please complete your registration to apply for the scholarship.")
-            complete_registration_page()  # Show registration page if not complete
+            complete_registration_page()  # Redirect to registration page if not complete
         else:
             st.success("Welcome back! Your registration is complete.")
             # User's personal dashboard or other features can be added here after login and registration
