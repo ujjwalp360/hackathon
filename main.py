@@ -2,7 +2,6 @@ import streamlit as st
 from login import login_page
 from registration import complete_registration_page
 from eligibility_check import show_eligibility_check
-
 def main():
     # Initialize session state variables if they don't exist
     if 'logged_in' not in st.session_state:

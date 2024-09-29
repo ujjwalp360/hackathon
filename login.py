@@ -1,3 +1,4 @@
+
 import streamlit as st
 from db import create_db_connection
 from registration import complete_registration_page
@@ -5,11 +6,11 @@ from registration import complete_registration_page
 # Function to verify user login
 def verify_login(username, password):
     db = create_db_connection()
-    cursor = db.cursor()
+    cursor = db.cursor(dictionary=True)
     
     query = "SELECT * FROM users WHERE username = %s AND password = %s"
     cursor.execute(query, (username, password))
-    user = cursor.fetchall()
+    user = cursor.fetchone()
     
     cursor.close()
     db.close()
@@ -23,7 +24,7 @@ def check_registration_complete(username):
     
     query = "SELECT COUNT(*) FROM user_info WHERE username = %s"
     cursor.execute(query, (username,))
-    registration_complete = cursor.fetchall()[0] > 0
+    registration_complete = cursor.fetchone()[0] > 0
     
     cursor.close()
     db.close()
@@ -39,16 +40,15 @@ def login_page():
         st.session_state['logged_in'] = False
 
     if st.session_state['logged_in']:
-        user = st.session_state['user']
+        username = st.session_state['username']
         
         # Check if registration is complete for the logged-in user
-        if not check_registration_complete(user['username']):
-            st.write(f"Welcome, {user['username']}!")
+        if not check_registration_complete(username):
+            st.write(f"Welcome, {username}!")
             st.warning("You have not completed the registration. Please complete your registration to apply for the scholarship.")
-            complete_registration_page(user['username'])  # Pass username to registration page
+            complete_registration_page(username)  # Pass username to registration page
         else:
             st.success("Welcome back! Your registration is complete.")
-            # User's personal dashboard or other features can be added here after login and registration
             st.write("Proceed to check eligibility or apply for the scholarship.")
     else:
         st.write("Please log in to continue.")
@@ -63,8 +63,8 @@ def login_page():
             user = verify_login(username, password)
             if user:
                 st.session_state['logged_in'] = True
-                st.session_state['user'] = user
-                st.success(f"Login successful! Welcome, {user['username']}.")
+                st.session_state['username'] = username  # Store username in session
+                st.success(f"Login successful! Welcome, {username}.")
                 st.rerun()  # Refresh the page to show the registration status
             else:
                 st.error("Invalid username or password. Please try again.")
