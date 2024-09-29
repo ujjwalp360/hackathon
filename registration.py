@@ -41,8 +41,8 @@ def complete_registration_page(username):
         
         submit_button = st.form_submit_button("Submit")
 
+    # Ensure all required fields are filled
     if submit_button:
-        # Ensure all required fields are filled
         if name and aadhaar and enrollment_no:
             # Pass all collected data to the complete_registration function
             complete_registration(username, name, aadhaar, family_income, gender, domicile, category, enrollment_no, college_state)
