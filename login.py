@@ -1,6 +1,6 @@
 import streamlit as st
 from db import create_db_connection
-from registration import complete_registration_page
+from registration import complete_registration_page  # Ensure this is imported correctly
 
 # Function to verify user login
 def verify_login(username, password):
@@ -44,7 +44,7 @@ def login_page():
         if not check_registration_complete(username):
             st.write(f"Welcome, {username}!")
             st.warning("You have not completed the registration. Please complete your registration to apply for the scholarship.")
-            complete_registration_page()
+            complete_registration_page()  # Use the function properly
         else:
             st.success("Welcome back! Your registration is complete.")
             st.write("Proceed to check eligibility or apply for the scholarship.")
