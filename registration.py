@@ -18,15 +18,11 @@ def complete_registration(user_id):
             return  # Exit the registration page, since they can't apply
         
         # Proceed with the rest of the form if domicile is "Yes"
-        category = st.selectbox("Category", ["Open", "OBC", "OBC-NCL", "SC", "ST"])
-        enrollment_no = st.text_input("Enrollment Number")
-        college_state = st.selectbox("College State", ["Maharashtra", "Other"])
+        category = st.selectbox("Category", ["Open", "OBC", "OBC-NCL", "SC", "ST"], key="category_select")
+        enrollment_no = st.text_input("Enrollment Number", key="enrollment_input")
+        college_state = st.selectbox("College State", ["Maharashtra", "Other"], key="college_state_select")
         
-        submit_button = st.form_submit_button("Submit")
-        category = st.selectbox("Category", ["Open", "OBC", "OBC-NCL", "SC", "ST"])
-        enrollment_no = st.text_input("Enrollment Number")
-        college_state = st.text_input("College State")
-        submit_button = st.form_submit_button("Submit")
+        submit_button = st.form_submit_button("Submit", key="submit_button")
     
     if submit_button:
         if domicile_state.lower() != "maharashtra":
