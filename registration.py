@@ -45,10 +45,10 @@ def complete_registration_page():
         
         submit_button = st.form_submit_button("Submit", key="submit_button")
 
-    if submit_button:
-        st.success("Registration completed successfully!")
-        # Save the registration details in the database (implement logic in registration.py)
-        complete_registration(st.session_state['user']['id'], name, aadhaar, family_income, gender, domicile, category, enrollment_no, college_state)
+        if submit_button:
+            st.success("Registration completed successfully!")
+            # Save the registration details in the database (implement logic in registration.py)
+            complete_registration(st.session_state['user']['id'], name, aadhaar, family_income, gender, domicile, category, enrollment_no, college_state)
         # Reset the session to reflect the updated registration
-        st.session_state['user']['registration_complete'] = True
-        st.success("You can now check your eligibility!")
+            st.session_state['user']['registration_complete'] = True
+            st.success("You can now check your eligibility!")
