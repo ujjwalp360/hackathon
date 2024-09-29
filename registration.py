@@ -43,12 +43,12 @@ def complete_registration_page():
         enrollment_no = st.text_input("Enrollment Number", key="enrollment_input")
         college_state = st.selectbox("College State", ["Maharashtra", "Other"], key="college_state_select")
         
-        submit_button = st.form_submit_button("Submit", key="submit_button")
+        submit_button = st.form_submit_button("Submit")
 
         if submit_button:
             st.success("Registration completed successfully!")
             # Save the registration details in the database (implement logic in registration.py)
-            complete_registration(st.session_state['user']['user_id'], name, aadhaar, family_income, gender, domicile, category, enrollment_no, college_state)
+            complete_registration(st.session_state['user']['id'], name, aadhaar, family_income, gender, domicile, category, enrollment_no, college_state)
         # Reset the session to reflect the updated registration
             st.session_state['user']['registration_complete'] = True
             st.success("You can now check your eligibility!")
